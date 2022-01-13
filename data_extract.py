@@ -8,6 +8,8 @@ from urllib.request import Request, urlopen
 hdr={'User-agent':'Mozilla/5.0'}           # erreur : https://stackoverflow.com/questions/13055208/httperror-http-error-403-forbidden
 
 # %%
+" === Scraping === "
+
 def nb_pages():
     base_url="https://www.anime-planet.com/manga/all?page=1"
     base_request=urlopen(Request(base_url,headers=hdr))
@@ -39,6 +41,7 @@ def mangas_page(n):
     return mangas_list
 
 # %%
+" === Features === "
 def basepage(title):
     title=title.replace(' ','-')
     base_url="https://www.anime-planet.com/manga/"
@@ -50,12 +53,30 @@ def features(title):
     base_page=basepage(title)
     feat={}
 
-    feat['scan']=base_page.find('div',{"class":"pure-1 md-1-5"}).text.replace('\n','').split(';')[1].replace(' Ch: ','').replace('+','')
+    feat['title']=title
+    feat['scan']=base_page.find('div',{"class":"pure-1 md-1-5"}).text.split(';')[-1].replace('\n','').replace('Ch: ','').replace('+','').replace(' ','')
     feat['synopsis']=base_page.find('div',{"class":'synopsisManga'}).text
 
     staff=base_page.find('section',{'class':'EntryPage__content__section EntryPage__content__section__staff castaff'})
     feat['author']=staff.find('strong',{'class':'CharacterCard__title rounded-card__title'}).text   # auteur toujours en 1er dans le staff
 
+    try:
+        related=base_page.find('div',{'id':'tabs--relations--manga'})
+        feat['related']=related.find('p').text
+    except:
+        feat['related']=None
+
+    tags=base_page.find('div',{'class':'tags'}).findAll('a')
+    feat['tags']=[tag.text.replace("\n",'') for tag in tags]
+
     return feat
 
 # %%
+print(features('one piece'))
+
+# %%
+testpage=basepage('Ooh La La')
+print(testpage.find('div',{"class":"pure-1 md-1-5"}).text.split(';')[-1])
+
+# %%
+
