@@ -41,7 +41,7 @@ def mangas_page(n):
     return mangas_list
 
 # %%
-" === Features === "
+" === Features extraction === "
 def basepage(title):
     title=title.replace(' ','-')
     base_url="https://www.anime-planet.com/manga/"
