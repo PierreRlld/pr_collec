@@ -4,7 +4,7 @@ from data_extract import *
 #%%
 class work():
     def __init__(self,title,start=1):
-        self.name=title
+        self.title=title
         self.features=features(title)
         self.scan=self.features['scan']
         self.author=self.features['author']
@@ -16,3 +16,8 @@ class work():
     
     def update(self,step=1):   #maj scan ; base step = 1
         self.current=self.current + step
+
+#%%
+class profile():
+    def __init__(self,name):
+        pass
