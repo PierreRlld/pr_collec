@@ -1,4 +1,5 @@
 # %%
+" === Dépendances === "
 import urllib
 import bs4
 import pandas as pd
@@ -72,11 +73,15 @@ def features(title):
     return feat
 
 # %%
+"""
 print(features('one piece'))
+"""
 
 # %%
+""""
 testpage=basepage('Ooh La La')
 print(testpage.find('div',{"class":"pure-1 md-1-5"}).text.split(';')[-1])
+"""
 
 # %%
 
