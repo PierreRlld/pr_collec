@@ -6,6 +6,7 @@ import pandas as pd
 from urllib import request
 import re
 from urllib.request import Request, urlopen
+import string
 hdr={'User-agent':'Mozilla/5.0'}           # erreur : https://stackoverflow.com/questions/13055208/httperror-http-error-403-forbidden
 
 # %%
@@ -50,32 +51,50 @@ def basepage(title):
     base_page = bs4.BeautifulSoup(base_request, "lxml")  
     return base_page
 
+def TextURL(text):
+    if "’s" in text:
+        text=text.replace("’s",'s')
+    for punc in string.punctuation:
+        if punc !='-':
+            text=text.replace(punc,'')
+    text=text.replace(' ','-')
+    return text
+
 def features(title):
     base_page=basepage(title)
     feat={}
 
     feat['title']=title
     feat['scan']=base_page.find('div',{"class":"pure-1 md-1-5"}).text.split(';')[-1].replace('\n','').replace('Ch: ','').replace('+','').replace(' ','')
-    feat['synopsis']=base_page.find('div',{"class":'synopsisManga'}).text
+    
+    # Synopsis
+    try:
+        feat['synopsis']=base_page.find('div',{"class":'synopsisManga'}).text
+    except:
+        feat['synopsis']=None
 
-    staff=base_page.find('section',{'class':'EntryPage__content__section EntryPage__content__section__staff castaff'})
-    feat['author']=staff.find('strong',{'class':'CharacterCard__title rounded-card__title'}).text   # auteur toujours en 1er dans le staff
+    # Author
+    try:    
+        staff=base_page.find('section',{'class':'EntryPage__content__section EntryPage__content__section__staff castaff'})
+        feat['author']=staff.find('strong',{'class':'CharacterCard__title rounded-card__title'}).text   # auteur toujours en 1er dans le staff
+    except:
+        feat['author']=None
 
+    # Related
     try:
         related=base_page.find('div',{'id':'tabs--relations--manga'})
         feat['related']=related.find('p').text
     except:
         feat['related']=None
 
-    tags=base_page.find('div',{'class':'tags'}).findAll('a')
-    feat['tags']=[tag.text.replace("\n",'') for tag in tags]
+    # Tags
+    try:
+        tags=base_page.find('div',{'class':'tags'}).findAll('a')
+        feat['tags']=[tag.text.replace("\n",'') for tag in tags]
+    except:
+        feat['tags']=None
 
     return feat
-
-# %%
-"""
-print(features('one piece'))
-"""
 
 # %%
 """"
@@ -84,4 +103,23 @@ print(testpage.find('div',{"class":"pure-1 md-1-5"}).text.split(';')[-1])
 """
 
 # %%
+" === Création CSV === "
+featuresList=['Title','Scan','Synopsis','Author','Related','Tags']
+df=pd.DataFrame(data=[],columns=featuresList)
+#df
+dataL=[]
 
+c=0
+erreur=[]
+t1=mangas_page(5)
+for el in t1:
+    try:
+        a=list(features(TextURL(el)).values())
+    except:
+        erreur.append(el)
+erreur
+
+#%% 
+
+#TextURL('Get Out of My House!')
+features(TextURL('Welcome to Demon School, Iruma-kun'))
