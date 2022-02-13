@@ -54,6 +54,8 @@ def basepage(title):
 def TextURL(text):
     if "’s" in text:
         text=text.replace("’s",'s')
+    if ' - ' in text:
+        text=text.replace(' - ','-')
     for punc in string.punctuation:
         if punc !='-':
             text=text.replace(punc,'')
@@ -122,4 +124,4 @@ erreur
 #%% 
 
 #TextURL('Get Out of My House!')
-features(TextURL('Welcome to Demon School, Iruma-kun'))
+features(TextURL('Flawless - Part 2'))
