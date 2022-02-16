@@ -1,4 +1,4 @@
 # pr_collec
 
-<Wip>
+< Wip >
 Personnal project.
