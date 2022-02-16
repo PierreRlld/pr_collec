@@ -43,12 +43,14 @@ nobu=profile('Nobu')
 nobu.add_collec('One piece')
 nobu.collec['One piece'].update(10)
 nobu.add_collec('Naruto')
-nobu.rem_collec('One piece')
+#nobu.rem_collec('One piece')
 nobu.collecTab()
 #%%
 " =========================================================== "
 " ======================== TEST ============================= "
 " =========================================================== "
+nobu.collec['Naruto'].update(35)
+nobu.collecTab()
 
 #%%
 # Test class work avec dépendance au nom d'utilisateur 
@@ -57,11 +59,11 @@ op=work('Nobu','One piece')
 op.update(10)
 op.current
 
-op2=work('pp','One piece')
+op2=work('Pierre','One piece')
 op2.update(20)
 op2.current
 
-test=[op,op2]
+print(op.current,op2.current)
 #%%
 test1={'One piece':work('nobu','One piEce'),'Naruto':work('nobu','naruto')}
 dftest=pd.DataFrame({'Title':list(test1.keys()), 'Current':[work.current for work in list(test1.values())] })
