@@ -51,7 +51,7 @@ class profile():
         dic={'Title':[x for x in list(self.collec.keys()) if self.collec[x][1]==True], 'Current':[work[0].current for work in list(self.collec.values()) if work[1]==True]}
         return pd.DataFrame(dic)
 
-# ================= #
+# Fonctions pour update scan en fonction du profile #
 
 def Update(profile,title,n):    # définir à quel scan on est à partir du numéro
     profile.collec[title][0].current=n
@@ -69,18 +69,19 @@ def UpdateAdd(profile,title,step=1):    #maj scan avec un nombre de scan de lu ;
 nobu=profile('Nobu')
 nobu.add_collec('One piece')
 #nobu.collec['One piece'].update(10)
-Update(nobu,'One piece',15)
+Update(nobu,'One piece',150)
 nobu.add_collec('Naruto')
 UpdateAdd(nobu,'Naruto',4)
 nobu.fav('Naruto','add')
 
-print('Favorite tab\n')
-nobu.favTab()
+print('Total tab\n')
+nobu.collecTab()
+
 #nobu.rem_collec('One piece')
 
 #%%
-print('Total tab\n')
-nobu.collecTab()
+print('Favorite tab\n')
+nobu.favTab()
 
 #%%
 " =========================================================== "
