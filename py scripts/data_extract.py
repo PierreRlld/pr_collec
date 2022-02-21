@@ -113,6 +113,7 @@ df=pd.DataFrame(data=[],columns=featuresList)
 #df
 dataL=[]
 
+" Test d'erreur "
 c=0
 erreur=[]
 t1=mangas_page(5)
