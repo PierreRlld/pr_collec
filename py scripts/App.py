@@ -1,10 +1,15 @@
 #%%
-" == Dépendaces == "
-import tkinter as tk
+" == Dépendances == "
+import time
+import tkinter as tk 
 from tkinter import ttk, messagebox, filedialog, font
+from ttkthemes import ThemedTk
 import pandas as pd
 from PIL import Image, ImageTk
+start=time.time()
 from profiles import *
+end=time.time()
+print(end-start)
 
 #%%
 " == APP == "
@@ -18,29 +23,29 @@ root.resizable(0,0)       # on peut pas resize
 #ico = Image.open('C:/Users/proui/Pictures/bass.png')
 #photo = ImageTk.PhotoImage(ico)
 #root.wm_iconphoto(False, photo)
-font_define=tk.font.Font()
+title_font=tk.font.Font(family="Helvetica",size=9,weight="bold")
+text_font=tk.font.Font(family="Helvetica",size=9)
 
 " /Profile section "
-def get_profile():  #il faut que le nom de l'Entry soit le nom avant le .get 
-    pseudo=profile(str(name_entry.get()))
-    print(type(pseudo))
-
 def update_profile():
-    pass
+    pseudo=profile(str(name_entry.get()))
+    if pseudo.name!="":
+        frame1["text"]=pseudo.name
+    else:
+        frame1["text"]="Enter name"
+        
 
-profile_frame=tk.LabelFrame(root,text='Profil')
+profile_frame=ttk.LabelFrame(root,text='Profile')
 profile_frame.place(height=50,width=500,rely=0,relx=0)
 
-name=tk.Label(profile_frame,text='Name').place(rely=0.05,relx=0.1)
-
-name_entry=tk.Entry(profile_frame,width=20)
+name_label=tk.Label(profile_frame,text='Name').place(rely=0.05,relx=0.1)
+name_entry=tk.Entry(profile_frame,width=25)
 name_entry.place(rely=0.05,relx=0.2)    # obligatoirement 2 lignes pour utiliser get_profile()
-prof_but=tk.Button(profile_frame,text="get",command=get_profile).place(rely=0,relx=0.47)
-prof_upd_but=tk.Button(profile_frame,text="update profile").place(rely=0,relx=0.55)
+prof_upd_but=tk.Button(profile_frame,text="update profile",command=update_profile).place(rely=0,relx=0.55)
 
 
 " /TreeView : collec_data "
-frame1=tk.LabelFrame(root,text='Collec data')
+frame1=tk.LabelFrame(root,text="Enter name")
 frame1.place(height=250,width=500,rely=0.15,relx=0)
 
 # Scan listing viewer
@@ -53,9 +58,11 @@ tv1.configure(xscrollcommand=treescrollx.set,yscrollcommand=treescrolly.set)
 treescrollx.pack(side="bottom",fill="x")
 treescrolly.pack(side="right",fill="y")
 
+" > Partie Data TreeView "
+
+
 
 " /Scan enter "
-
 def add_scan():
     pass
 
@@ -116,3 +123,10 @@ tk.Button(master,
                                                        pady=4)
 
 tk.mainloop()
+
+
+#%%
+from tkinter import ttk
+s=ttk.Style()
+s.theme_names()
+('clam', 'alt', 'default', 'classic')
