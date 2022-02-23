@@ -1,7 +1,12 @@
 # %%
 " === Dépendances === "
+import time
+start=time.time()
 from data_extract import *
+end=time.time()
+print(end-start)
 import pandas as pd
+
 
 #%%
 class work():
@@ -22,9 +27,10 @@ class profile():
     def __init__(self,name): # attribus de la classe profile 
         self.name=name
         self.collec={}      # dictionnaire qui va stocker les lectures en cours = objet de type work
-
+        #profile_storage[self.name]="OK"+self.name : test d'une variable globale de stockage
 
     def add_collec(self,title):                             
+        " > format de profile.collec { ""title"":[work,True/False] } "
         self.collec[title]=[work(self.name,title),False]    
     # Prends en paramètre le nom d'utilisateur !!
     # dictionnaire self.collec contient {nom oeuvre : [ <type work>, statut favoris] 
@@ -53,18 +59,16 @@ class profile():
         return pd.DataFrame(dic)
 
 
-# Fonctions pour update scan en fonction du profil
+" >> Fonctions pour update scan en fonction du profil " 
 def Update(profile,title,n):                # définir à quel scan on est à partir du numéro
-    profile.collec[title][0].current=n
+    profile.collec[title][0].current=n      # >> cf format de profile.collec 
 
 def UpdateAdd(profile,title,step=1):        #maj scan avec un nombre de scan de lu ; base step = 1
     profile.collec[title][0].current+=step
 
 
 #%%
-" =========================================================== "
 " ======================== TEST ============================= "
-" =========================================================== "
 
 nobu=profile('Nobu')
 nobu.add_collec('One piece')
@@ -74,15 +78,18 @@ nobu.add_collec('Naruto')
 UpdateAdd(nobu,'Naruto',4)
 nobu.fav('Naruto','add')
 
-print('Total tab\n')
-nobu.collecTab()
+#profile_storage
 
 #nobu.rem_collec('One piece')
 
 #%%
-print('Favorite tab\n')
 nobu.favTab()
 #print(type(nobu))
+
+#%%
+pierro=profile('Pierre')
+
+#profile_storage
 
 #%%
 test1={'One piece':work('nobu','One piEce'),'Naruto':work('nobu','naruto')}
