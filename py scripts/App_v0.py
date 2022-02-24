@@ -153,7 +153,13 @@ tk.mainloop()
 
 
 #%%
-from tkinter import ttk
-s=ttk.Style()
-s.theme_names()
-('clam', 'alt', 'default', 'classic')
+import tkinter as tk
+from tkinter import Canvas
+
+root=tk.Tk()
+root.geometry("600x600")
+bar1=Canvas(root,width=200,height=200)
+bar1.create_line(15, 25, 180, 25)
+bar1.pack()
+
+root.mainloop()
