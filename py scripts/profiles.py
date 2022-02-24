@@ -68,7 +68,7 @@ def UpdateAdd(profile,title,step=1):        #maj scan avec un nombre de scan de 
 
 
 #%%
-" ======================== TEST ============================= "
+" == TEST == "
 
 nobu=profile('Nobu')
 nobu.add_collec('One piece')
