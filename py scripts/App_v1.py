@@ -29,27 +29,54 @@ class MainApplication:
         self.master.pack_propagate(False)
         self.master.resizable(0,0)
 
-        self.touchbar_sec=Touch_bar(self.master)
         self.profile_sec=Profile_frame(self.master)
+        self.touchbar_sec=Touch_bar(self.master,self.profile_sec)
+        
 
 class Touch_bar:
-    def __init__(self,master):
+    def __init__(self,master,pro_frame_bar):
         bar_font=tk.font.Font(family="Helvetica",size=9)
-
+        self.colorbar="#5c4d7d"
         self.master=master
-        title_font=tk.font.Font(family="Helvetica",size=9) #weight="bold"
+        self.pro_frame_bar=pro_frame_bar
+        title_font=tk.font.Font(family="Helvetica",size=9)      #weight="bold"
         text_font=tk.font.Font(family="Helvetica",size=9)
-        self.bar_frame=tk.Frame(self.master,bg="blue")
+        self.bar_frame=tk.Frame(self.master,bg=self.colorbar)
         self.bar_frame.place(height=45,width=600,rely=0,relx=0)
 
-        bar_home_but=tk.Button(self.bar_frame,text="Home",fg="white",font=bar_font,bg="blue",borderwidth=0)
+        #> home
+        bar_home_but=tk.Button(self.bar_frame,text="Home",fg="white",font=bar_font,bg=self.colorbar,borderwidth=0)
         bar_home_but.place(rely=0.25,relx=0.2)
 
-        bar1=Canvas(self.bar_frame)
-        bar1.create_line(15, 10, 50, 50,fill="pink")
+        bar1=Canvas(self.bar_frame,width=30,height=40,bg=self.colorbar,highlightthickness=0)
+        bar1.create_line(5, 10, 5, 35,fill="white")
+        bar1.place(rely=0,relx=0.3)
+        #> favorites
+        bar_fav_but=tk.Button(self.bar_frame,text="Favorites",fg="white",font=bar_font,bg=self.colorbar,borderwidth=0,command=self.favorites)
+        bar_fav_but.place(rely=0.25,relx=0.37)
+
+        bar2=Canvas(self.bar_frame,width=30,height=40,bg=self.colorbar,highlightthickness=0)
+        bar2.create_line(5, 10, 5, 35,fill="white")
+        bar2.place(rely=0,relx=0.5)
+        #> log out
+        bar_out_but=tk.Button(self.bar_frame,text="Log out",fg="white",font=bar_font,bg=self.colorbar,borderwidth=0,command=self.logout)
+        bar_out_but.place(rely=0.25,relx=0.57)
+        #> exit
+        bar_exit_but=tk.Button(self.bar_frame,text="exit",fg="white",font=bar_font,bg=self.colorbar,borderwidth=0,command=self.exit)
+        bar_exit_but.place(rely=0.25,relx=0.92)
+
+    def logout(self):
+        self.pro_frame_bar.profile_frame["text"]="          Logged out"
+
+    def exit(self):
+        self.master.destroy()
+    
+    def favorites(self):
+        self.fav_inter=tk.Tk()
+        self.favorite_page=Favorite_page(self.fav_inter)
+
 
 class Profile_frame:
-
     def __init__(self,master):
         esppp='          '
         self.master=master
@@ -70,9 +97,20 @@ class Profile_frame:
         pseudo=str(self.name_entry.get())
         if pseudo!="":
             self.profile_frame["text"]=esppp+'Welcome '+pseudo
+        elif pseudo=="kill":
+            self.master.destroy()
         else:
             self.profile_frame["text"]=esppp+"Not logged in"
-        
+
+
+class Favorite_page:                    # on redéfinie une page à la manière de la page de base
+    def __init__(self, master):
+        #title_font=tk.font.Font(family="Helvetica")
+        self.master = master
+        self.master.geometry("300x200")
+        self.master.configure(background=bg_color)
+        self.frame1 = tk.LabelFrame(self.master, text="           Favorites",fg="white",background=bg_color,borderwidth=0)
+        self.frame1.place(height=25,width=300)
 
 
 #self.master.destroy()        
