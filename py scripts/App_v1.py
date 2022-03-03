@@ -89,7 +89,6 @@ class Profile_frame:
         self.name_entry=tk.Entry(self.profile_frame,bg="#c9c9c9",width=25)
         self.name_entry.place(rely=0.2,relx=0.2)    # obligatoirement 2 lignes pour utiliser get_profile()
         prof_upd_but=tk.Button(self.profile_frame,text="update profile",bg="#383b40",fg="white",activebackground="#6e737a",command=self.update_profile,borderwidth=0).place(rely=0.2,relx=0.50)
-        test=tk.Button(self.profile_frame,text="test").place(rely=0.2,relx=0)
 
     def update_profile(self):
         esppp='          '
@@ -101,6 +100,9 @@ class Profile_frame:
             self.master.destroy()
         else:
             self.profile_frame["text"]=esppp+"Not logged in"
+
+class Scan_frame:
+    pass
 
 
 class Favorite_page:                    # on redéfinie une page à la manière de la page de base
