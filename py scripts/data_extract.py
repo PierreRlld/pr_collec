@@ -7,6 +7,8 @@ from urllib import request
 import re
 from urllib.request import Request, urlopen
 import string
+import lxml
+
 hdr={'User-agent':'Mozilla/5.0'}           # erreur : https://stackoverflow.com/questions/13055208/httperror-http-error-403-forbidden
 
 # %%
@@ -15,7 +17,7 @@ hdr={'User-agent':'Mozilla/5.0'}           # erreur : https://stackoverflow.com/
 def nb_pages():
     base_url="https://www.anime-planet.com/manga/all?page=1"
     base_request=urlopen(Request(base_url,headers=hdr))
-    base_page = bs4.BeautifulSoup(base_request, "lxml") #qui est bien une page html maintenant 
+    base_page = bs4.BeautifulSoup(base_request, features='html.parser') #qui est bien une page html maintenant 
     
     maxpage=0
     page=base_page.find('ul',{"class":"nav"}).findAll('li')
@@ -32,7 +34,7 @@ def mangas_page(n):
 
     base_url="https://www.anime-planet.com/manga/all?page="                         
     base_request=urlopen(Request(base_url+str(n),headers=hdr))
-    base_page = bs4.BeautifulSoup(base_request, "lxml")  
+    base_page = bs4.BeautifulSoup(base_request, features='html.parser')  
 
     mangas_list=[]
     base_layer=base_page.find('ul',{"class":"cardDeck cardGrid"})   #on cherche 'ul' dont la classe est 'cardDeck cardGrid'
@@ -48,7 +50,7 @@ def basepage(title):
     title=title.replace(' ','-')
     base_url="https://www.anime-planet.com/manga/"
     base_request=urlopen(Request(base_url+str(title),headers=hdr))
-    base_page = bs4.BeautifulSoup(base_request, "lxml")  
+    base_page = bs4.BeautifulSoup(base_request, features='html.parser')  
     return base_page
 
 def TextURL(text):
@@ -62,7 +64,7 @@ def TextURL(text):
     text=text.replace(' ','-')
     return text
 
-# ================================================== #
+" ================================================== "
 
 def features(title):
     base_page=basepage(title)
